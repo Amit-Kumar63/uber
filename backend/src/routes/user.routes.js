@@ -16,7 +16,7 @@ router.post('/login',[
     body('password').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
 ], userController.loginUser)
 
-router.get('/profile', authMiddleware ,userController.getUser)
-router.get('/logout', authMiddleware ,userController.logoutUser)
+router.get('/profile', authMiddleware.authUser ,userController.getUser)
+router.get('/logout', authMiddleware.authUser ,userController.logoutUser)
 
 module.exports = router;
