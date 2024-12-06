@@ -1,27 +1,53 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import {CaptainDataContext} from '../context/CaptainContext'
+import axios from 'axios'
 
 const CaptainSignup = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [userData, setUserData] = useState({})
+  const [vehicleColor, setVehicleColor] = useState('')
+  const [vehiclePlate, setVehiclePlate] = useState('')
+  const [vehicleCapacity, setVehicleCapacity] = useState('')
+  const [vehicleType, setVehicleType] = useState('')
+
+  const {captain, setCaptain} = useContext(CaptainDataContext)
+  const navigate = useNavigate()
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({
+
+    const userData = {
       fullname: {
-      firstName:firstName,
-      lastName: lastName,
-      },
+      firstname:firstName,
+      lastname: lastName,
+      },  
       email:email,
-      password: password
-    })
+      password: password,
+      vehicle: {
+        color: vehicleColor,
+        plate: vehiclePlate,
+        capacity: vehicleCapacity,
+        vehicleType: vehicleType
+      }
+    }
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, userData)
+    if (response.status === 201) {
+      setCaptain(response.data)
+      localStorage.setItem('token', response.data.token)
+      navigate('/captain-home')
+    }
+
     setFirstName('')
     setLastName('')
     setEmail('')
     setPassword('')
+    setVehicleColor('')
+    setVehiclePlate('')
+    setVehicleCapacity('')
+    setVehicleType('')
   }
   return (
     <div className='p-7 h-screen flex flex-col justify-between'>
@@ -61,7 +87,41 @@ const CaptainSignup = () => {
         type="password" 
         placeholder='Enter your password'
         required/>
-        <button className='mt-8 bg-black font-semibold w-full text-white py-2 px-4 rounded flex justify-center items-center'>Login</button>
+        <h3 className='font-semibold text-base mt-5'>Vehicle information</h3>
+        <div className='mb-5 grid grid-cols-2 gap-2'>
+        <input
+        value={vehicleColor}
+        onChange={(e) => setVehicleColor(e.target.value)}
+        className='px-4 py-2 mt-3 border border-gray-300 rounded-md  placeholder:text-sm' 
+        type="text"
+        placeholder='Vehicle Color'
+        required/>
+                <input
+        value={vehiclePlate}
+        onChange={(e) => setVehiclePlate(e.target.value)}
+        className='px-4 py-2 mt-3 border border-gray-300 rounded-md  placeholder:text-sm' 
+        type="number" 
+        placeholder='Vehicle Plate'
+        required/>
+        <input
+        value={vehicleCapacity}
+        onChange={(e) => setVehicleCapacity(e.target.value)}
+        className='px-4 py-2 mt-3 border border-gray-300 rounded-md  placeholder:text-sm' 
+        type="number" 
+        placeholder='Vehicle Capacity'
+        required/>
+        <select 
+        name="vehicle type" 
+        value={vehicleType} 
+        onChange={(e) => setVehicleType(e.target.value)}
+        className='px-3 py-2 mt-3 border border-gray-300 rounded-md text-sm outline-none'>
+          <option value="" disabled >Select Vehicle Type</option>
+          <option value="car">Car</option>
+          <option value="auto">Auto</option>
+          <option value="motercycle">Motercycle</option>
+        </select>
+        </div>
+        <button className='mt-8 bg-black font-semibold w-full text-white py-2 px-4 rounded flex justify-center items-center'>Create account</button>
       </form>
       <p className='text-center mt-4 text-sm'>Already have an account? <Link to={'/login'} className='text-blue-600 font-semibold'>Login here</Link></p>
     </div>

@@ -3,7 +3,7 @@ const http = require('http');
 const app = require('./app');
 const connectDB = require('./db/db');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8100;
 dotenv.config();
 connectDB();
 
