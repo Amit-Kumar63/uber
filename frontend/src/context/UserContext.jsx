@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react'
 
 export const UserDataContext = createContext()
 const UserContext = ({children}) => {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState({
     fullname: {
       firstName: '',
