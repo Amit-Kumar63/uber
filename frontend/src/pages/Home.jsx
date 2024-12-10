@@ -21,7 +21,7 @@ const Home = () => {
   useGSAP(() => {
     if (panelOpen) {
       gsap.to(panelRef.current, {
-        height: '70%',
+        height: '75%',
         padding: 24,
       })
     }
@@ -61,16 +61,16 @@ const Home = () => {
     e.preventDefault();
   }
   return (
-    <div className='h-screen'>
+    <div className='h-screen relative overflow-hidden'>
         <img className='w-16 absolute top-5 left-5' src='https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png'/>
       <div>
       <img className='w-screen h-screen object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
       </div>
       <div className='flex flex-col justify-end h-screen top-0 w-full absolute'>
-        <div className='h-[30%] bg-white p-5 relative'>
+        <div className='h-[25%] bg-white p-5 relative'>
           <h5 onClick={() => setPanelOpen(false)} className={`absolute top-6 right-6 text-2xl ${panelOpen ? 'opacity-100' : 'opacity-0'}`}><i className="ri-arrow-down-wide-line"></i></h5>
         <h4 className='text-3xl font-semibold'>Find a trip</h4>
-        <div className='absolute top-[40%] left-10 w-1 h-10 bg-gray-700'></div>
+        <div className='absolute top-[45%] left-10 w-1 h-10 bg-gray-700'></div>
         <form onSubmit={submitHandler}>
           <input 
           value={pickup}
@@ -96,7 +96,7 @@ const Home = () => {
         <div ref={vehiclePanelRef} className='bg-white w-full fixed z-10 bottom-0 px-3 py-10 pt-14 space-y-2 translate-y-full'>
           <VehiclePanel setVehiclePanelOpen={setVehiclePanelOpen} setConfirmRideOpen={setConfirmRideOpen}/>          
         </div>
-        <div ref={confirmRideRef} className='bg-white w-full fixed z-10 bottom-0 px-3 py-10 pt-14 space-y-2 translate-y-full'>
+        <div ref={confirmRideRef} className='bg-white w-full fixed z-10 bottom-0 px-3 py-5 space-y-2 translate-y-full'>
           <ConfirmRide setConfirmRideOpen={setConfirmRideOpen} />
         </div>
       </div>
